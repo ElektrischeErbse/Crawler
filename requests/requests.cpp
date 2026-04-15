@@ -89,17 +89,19 @@ void Session::prepare_common(const std::string &url)
         curl_easy_setopt(curl_, CURLOPT_PROXY, proxy_.c_str());
     }
     // 设置头部
-    curl_slist *slist = nullptr;
+    if(slist_){
+        curl_slist_free_all(slist_);
+        slist_ = nullptr;
+    }
     for (auto &[key, value]: default_headers_) {
         std::string header;
         header.append(key);
         header.append(": ");
         header.append(value);
-        slist = curl_slist_append(slist, header.c_str());
+        slist_ = curl_slist_append(slist_, header.c_str());
     }
-    if (slist) {
-        curl_easy_setopt(curl_, CURLOPT_HTTPHEADER, slist);
-        curl_slist_free_all(slist);
+    if (slist_) {
+        curl_easy_setopt(curl_, CURLOPT_HTTPHEADER, slist_);
     }
 }
 

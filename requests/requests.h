@@ -54,6 +54,7 @@ private:
     Response perform();
 
     CURL *curl_ = nullptr;
+    curl_slist *slist_ = nullptr;
     std::map<std::string, std::string> default_headers_;
     long timeout_ = 30;
     bool verify_ssl_ = false;

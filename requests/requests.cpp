@@ -263,6 +263,7 @@ bool Session::download(const std::string &url, const std::string &save_path)
     curl_easy_setopt(curl_, CURLOPT_WRITEFUNCTION, file_write_callback);
     curl_easy_setopt(curl_, CURLOPT_WRITEDATA, &save_file);
     CURLcode res = curl_easy_perform(curl_);
+    save_file.close();
     return res == CURLE_OK;
 }
 

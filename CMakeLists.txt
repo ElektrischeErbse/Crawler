@@ -2,7 +2,17 @@ cmake_minimum_required(VERSION 3.22)
 
 project(crawler)
 
-add_subdirectory(requests)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-add_executable(test_requests test_requests.cpp)
-target_link_libraries(test_requests PRIVATE requests)
+find_library(LIB_GQ libgq.a)
+find_package(GTest REQUIRED)
+
+set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+enable_testing()
+
+add_subdirectory(requests)
+add_subdirectory(tests)
+
+add_executable(main main.cpp)
+target_link_libraries(main PRIVATE requests ${LIB_GQ})
